@@ -14,9 +14,9 @@ makedepends=('git' 'python-babel' 'python-setuptools')
 optdepends=('gtk3: for interactive mode (GUI)'
             'python-gobject: for interactive mode (GUI)')
 url="https://gitlab.manjaro.org/applications/pacman-mirrors.git"
-conflicts=('pacman-mirrorlist' 'pacman-mirrorlist' 'pacman-mirrors-dev')
+conflicts=('pacman-mirrorlist' 'pacman-mirrorlist')
 replaces=('pacman-mirrorlist' 'pacman-mirrorlist')
-provides=("pacman-mirrorlist=$_date")
+provides=("pacman-mirrorlist=$_date" "pacman-mirrors=$pkgver")
 license=('GPL')
 backup=(etc/pacman-mirrors.conf)
 source=(git+$url#branch=$_branch
