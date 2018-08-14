@@ -2,10 +2,10 @@
 # Contributor: Philip Müller <philm@manjaro.org>
 
 _branch=v4.12.x-stable
-# _branch=master
+#_branch=master
 _date=$(date +%Y%m%d)
 pkgname=pacman-mirrors
-pkgver=4.12.5.1
+pkgver=4.12.6
 pkgrel=1
 pkgdesc="Manjaro Linux mirror list for use by pacman"
 arch=('any')
