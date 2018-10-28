@@ -1,11 +1,11 @@
 # Maintainer: Frede Hundewadt <fh@manjaro.org>
 # Contributor: Philip Müller <philm@manjaro.org>
 
-_branch=v4.12.x-stable
+_branch=v4.13.x-stable
 #_branch=master
 _date=$(date +%Y%m%d)
 pkgname=pacman-mirrors
-pkgver=4.12.6
+pkgver=4.13.0
 pkgrel=1
 pkgdesc="Manjaro Linux mirror list for use by pacman"
 arch=('any')
