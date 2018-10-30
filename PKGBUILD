@@ -6,7 +6,7 @@ _branch=v4.14.x-stable
 _date=$(date +%Y%m%d)
 pkgname=pacman-mirrors
 pkgver=4.14.0
-pkgrel=2
+pkgrel=3
 pkgdesc="Manjaro Linux mirror list for use by pacman"
 arch=('any')
 depends=('python' 'python-npyscreen')
@@ -14,7 +14,7 @@ makedepends=('git' 'python-babel' 'python-setuptools')
 optdepends=('gtk3: for interactive mode (GUI)'
             'python-gobject: for interactive mode (GUI)')
 url="https://gitlab.manjaro.org/applications/pacman-mirrors.git"
-conflicts=('pacman-mirrorlist' 'pacman-mirrors-dev')
+conflicts=('pacman-mirrorlist' 'pacman-mirrors-dev' 'maint' 'reflector')
 replaces=('pacman-mirrorlist')
 provides=("pacman-mirrorlist=$_date" "pacman-mirrors=$pkgver")
 license=('GPL')
