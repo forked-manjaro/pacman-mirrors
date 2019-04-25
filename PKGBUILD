@@ -1,11 +1,11 @@
 # Maintainer: Frede Hundewadt <fh@manjaro.org>
 # Contributor: Philip Müller <philm@manjaro.org>
 
-_branch=v4.14.x-stable
-#_branch=master
+_branch=issue1146
 _date=$(date +%Y%m%d)
-pkgname=pacman-mirrors
-pkgver=4.14.2
+pkgname=pacman-mirrors-dev
+_pkgname=pacman-mirrors
+pkgver=4.14.99.dev
 pkgrel=1
 pkgdesc="Manjaro Linux mirror list for use by pacman"
 arch=('any')
@@ -31,12 +31,12 @@ sha256sums=('SKIP'
             '6b6869d9dd85cd3a3cba49013dd2fc1c5f7a0934ba1284e21d4bbd24fa2540c6')
 
 prepare() {
-  cd "${srcdir}"/pacman-mirrors
+  cd "${srcdir}"/$_pkgname
   # do something here
 }
 
 package() {
-  cd "${srcdir}"/pacman-mirrors
+  cd "${srcdir}"/$_pkgname
   make DESTDIR="${pkgdir}" install
 
   install -D ${srcdir}/pacman-mirrors-install.script ${pkgdir}/usr/share/libalpm/scripts/pacman-mirrors-install
