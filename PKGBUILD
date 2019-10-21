@@ -3,17 +3,17 @@
 
 _branch=master
 _date=$(date +%Y%m%d)
-pkgname=pacman-mirrors-dev
+pkgname=pacman-mirrors
 _pkgname=pacman-mirrors
-pkgver=4.15.0.dev5
-pkgrel=1
+pkgver=4.15
+pkgrel=2
 pkgdesc="Manjaro Linux mirror list for use by pacman"
-arch=('any')
+arch=('i686' 'x86_64')
 depends=('python' 'python-npyscreen')
 makedepends=('git' 'python-babel' 'python-setuptools')
 optdepends=('gtk3: for interactive mode (GUI)'
             'python-gobject: for interactive mode (GUI)')
-url="https://gitlab.manjaro.org/fhdk/pacman-mirrors.git"
+url="https://gitlab.manjaro.org/applications/pacman-mirrors.git"
 conflicts=('pacman-mirrorlist' 'pacman-mirrors-dev' 'maint' 'reflector')
 replaces=('pacman-mirrorlist')
 provides=("pacman-mirrorlist=$_date" "pacman-mirrors=$pkgver")
