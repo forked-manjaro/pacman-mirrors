@@ -1,12 +1,12 @@
 # Maintainer: Frede Hundewadt <fh@manjaro.org>
 # Contributor: Philip Müller <philm@manjaro.org>
 
-_branch=v4.15.x-stable
+_branch=v4.16.x
 _date=$(date +%Y%m%d)
 pkgname=pacman-mirrors
 _pkgname=pacman-mirrors
-pkgver=4.15.1
-pkgrel=2
+pkgver=4.16.1
+pkgrel=1
 pkgdesc="Manjaro Linux mirror list for use by pacman"
 arch=('i686' 'x86_64')
 depends=('python' 'python-npyscreen' 'python-requests')
