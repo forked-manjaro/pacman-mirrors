@@ -5,8 +5,8 @@ _branch=master
 _date=$(date +%Y%m%d)
 pkgname=pacman-mirrors
 _pkgname=pacman-mirrors
-pkgver=4.18.2
-pkgrel=3
+pkgver=4.18.3
+pkgrel=1
 pkgdesc="Manjaro Linux mirror list for use by pacman"
 arch=('aarch64' 'i686' 'x86_64')
 depends=('python>=3.9' 'python-npyscreen' 'python-requests')
