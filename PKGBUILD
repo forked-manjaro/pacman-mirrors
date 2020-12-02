@@ -1,19 +1,19 @@
 # Maintainer: Frede Hundewadt <fh@manjaro.org>
 # Contributor: Philip Müller <philm@manjaro.org>
 
-_branch=v4.16.x
+_branch=master
 _date=$(date +%Y%m%d)
 pkgname=pacman-mirrors
 _pkgname=pacman-mirrors
-pkgver=4.16.2
-pkgrel=3
+pkgver=4.18
+pkgrel=1
 pkgdesc="Manjaro Linux mirror list for use by pacman"
 arch=('i686' 'x86_64')
 depends=('python' 'python-npyscreen' 'python-requests')
 makedepends=('git' 'python-babel' 'python-setuptools')
 optdepends=('gtk3: for interactive mode (GUI)'
             'python-gobject: for interactive mode (GUI)')
-url="https://gitlab.manjaro.org/applications/pacman-mirrors.git"
+url="https://gitlab.manjaro.org/linux-aarhus/pacman-mirrors.git"
 conflicts=('pacman-mirrorlist' 'pacman-mirrors-dev' 'maint' 'reflector')
 replaces=('pacman-mirrorlist')
 provides=("pacman-mirrorlist=$_date" "pacman-mirrors=$pkgver")
@@ -37,7 +37,10 @@ prepare() {
 
 package() {
   cd "${srcdir}"/$_pkgname
-  make DESTDIR="${pkgdir}" install
+  # make DESTDIR="${pkgdir}" install
+  make clean
+  make mo-files
+  python setup.py install --root${DESTDIR} --optimize=1  --install-option="--country=Germany --url=https://repo.pintex.com"
 
   install -D ${srcdir}/pacman-mirrors-install.script ${pkgdir}/usr/share/libalpm/scripts/pacman-mirrors-install
   install -D ${srcdir}/pacman-mirrors-upgrade.script ${pkgdir}/usr/share/libalpm/scripts/pacman-mirrors-upgrade
