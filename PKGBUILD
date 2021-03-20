@@ -2,12 +2,12 @@
 # Contributor: Philip Müller <philm@manjaro.org>
 
 #_branch=main
-_branch=v4.19x-stable
+_branch=v4.20.x-stable
 _date=$(date +%Y%m%d)
 pkgname=pacman-mirrors
 _pkgname=pacman-mirrors
 pkgver=4.20.0
-pkgrel=1
+pkgrel=2
 pkgdesc="Manjaro Linux mirror list for use by pacman"
 arch=('any')
 depends=('python' 'python-npyscreen' 'python-requests')
