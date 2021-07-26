@@ -11,7 +11,7 @@ pkgver=4.21.5
 pkgrel=1
 pkgdesc="Manjaro Linux mirror list for use by pacman"
 arch=('any')
-depends=('python' 'python-npyscreen' 'python-requests' 'python-certify')
+depends=('python' 'python-npyscreen' 'python-requests' 'python-certifi')
 makedepends=('git' 'python-babel' 'python-setuptools')
 optdepends=('gtk3: for interactive mode (GUI)'
             'python-gobject: for interactive mode (GUI)')
