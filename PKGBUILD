@@ -7,11 +7,11 @@ _branch=master
 _date=$(date +%Y%m%d)
 pkgname=pacman-mirrors
 _pkgname=pacman-mirrors
-pkgver=4.21.4
-pkgrel=1
+pkgver=4.22.0
+pkgrel=3
 pkgdesc="Manjaro Linux mirror list for use by pacman"
 arch=('any')
-depends=('python' 'python-npyscreen' 'python-requests')
+depends=('python' 'python-npyscreen' 'python-requests' 'python-certifi')
 makedepends=('git' 'python-babel' 'python-setuptools')
 optdepends=('gtk3: for interactive mode (GUI)'
             'python-gobject: for interactive mode (GUI)')
