@@ -5,15 +5,14 @@
 _branch=master
 #_branch=v4.21.x-stable
 _date=$(date +%Y%m%d)
-
 pkgname=pacman-mirrors
+_pkgname=pacman-mirrors
 pkgver=4.23.2
-pkgrel=4
+pkgrel=5
 pkgdesc="Manjaro Linux mirror list for use by pacman"
 arch=('any')
 depends=('python' 'python-npyscreen' 'python-requests' 'python-certifi')
-makedepends=('git' 'python-babel' 'python-build' 'python-installer'
-             'python-setuptools' 'python-wheel')
+makedepends=('git' 'python-babel' 'python-setuptools')
 optdepends=('gtk3: for interactive mode (GUI)'
             'python-gobject: for interactive mode (GUI)')
 # test package source
@@ -21,14 +20,14 @@ optdepends=('gtk3: for interactive mode (GUI)'
 url="https://gitlab.manjaro.org/applications/pacman-mirrors"
 conflicts=('pacman-mirrorlist' 'pacman-mirrors-dev' 'maint' 'reflector')
 replaces=('pacman-mirrorlist')
-provides=("pacman-mirrorlist=${_date}" "${pkgname}=$pkgver")
+provides=("pacman-mirrorlist=$_date" "pacman-mirrors=$pkgver")
 license=('GPL')
-backup=("etc/${pkgname}.conf")
-source=("git+$url.git#branch=${_branch}"
-        "${pkgname}-install.script"
-        "${pkgname}-upgrade.script"
-        "${pkgname}-install.hook"
-        "${pkgname}-upgrade.hook")
+backup=('etc/pacman-mirrors.conf')
+source=("git+$url.git#branch=$_branch"
+        'pacman-mirrors-install.script'
+        'pacman-mirrors-upgrade.script'
+        'pacman-mirrors-install.hook'
+        'pacman-mirrors-upgrade.hook')
 sha256sums=('SKIP'
             '718a47605be1ca328255b19047dee6d331e0440f303b86d17485fe53937b7906'
             '3b1df8c662161903653b0ae41d910019f87a58f3ecd8e02ea9ac8859b9c43f17'
@@ -36,31 +35,19 @@ sha256sums=('SKIP'
             '6b6869d9dd85cd3a3cba49013dd2fc1c5f7a0934ba1284e21d4bbd24fa2540c6')
 
 prepare() {
-  cd "${srcdir}/${pkgname}"
+  cd "${srcdir}"/$_pkgname
   # do something here
 }
 
-build() {
-  cd "${srcdir}/${pkgname}"
+package() {
+  cd "${srcdir}"/$_pkgname
+  # make DESTDIR="${pkgdir}" install
   make clean
   make mo-files
-  python -m build --wheel --no-isolation
-}
+  python setup.py install --root=${pkgdir} --optimize=1
 
-package() {
-  cd "${srcdir}/${pkgname}"
-  # make DESTDIR="${pkgdir}" install
-  python -m installer --destdir="${pkgdir}" dist/*.whl
-
-  local site_packages=$(python -c "import site; print(site.getsitepackages()[0])")
-  mv "${pkgdir}${site_packages}/etc" "$pkgdir/"
-
-  install -D "${srcdir}/${pkgname}-install.script" \
-    "${pkgdir}/usr/share/libalpm/scripts/${pkgname}-install"
-  install -D "${srcdir}/${pkgname}-upgrade.script" \
-    "${pkgdir}/usr/share/libalpm/scripts/${pkgname}-upgrade"
-  install -Dm644 "${srcdir}/${pkgname}-install.hook" \
-    "${pkgdir}/usr/share/libalpm/hooks/${pkgname}-install.hook"
-  install -Dm644 "${srcdir}/${pkgname}-upgrade.hook" \
-    "${pkgdir}/usr/share/libalpm/hooks/${pkgname}-upgrade.hook"
+  install -D ${srcdir}/pacman-mirrors-install.script ${pkgdir}/usr/share/libalpm/scripts/pacman-mirrors-install
+  install -D ${srcdir}/pacman-mirrors-upgrade.script ${pkgdir}/usr/share/libalpm/scripts/pacman-mirrors-upgrade
+  install -Dm644 ${srcdir}/pacman-mirrors-install.hook ${pkgdir}/usr/share/libalpm/hooks/pacman-mirrors-install.hook
+  install -Dm644 ${srcdir}/pacman-mirrors-upgrade.hook ${pkgdir}/usr/share/libalpm/hooks/pacman-mirrors-upgrade.hook
 }
