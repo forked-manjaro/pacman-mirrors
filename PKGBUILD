@@ -8,7 +8,7 @@ _date=$(date +%Y%m%d)
 
 pkgname=pacman-mirrors
 pkgver=4.23.2
-pkgrel=3
+pkgrel=4
 pkgdesc="Manjaro Linux mirror list for use by pacman"
 arch=('any')
 depends=('python' 'python-npyscreen' 'python-requests' 'python-certifi')
@@ -23,7 +23,7 @@ conflicts=('pacman-mirrorlist' 'pacman-mirrors-dev' 'maint' 'reflector')
 replaces=('pacman-mirrorlist')
 provides=("pacman-mirrorlist=${_date}" "${pkgname}=$pkgver")
 license=('GPL')
-#backup=("etc/${pkgname}.conf") ==> WARNING: backup entry file not in package : etc/pacman-mirrors.conf
+backup=("etc/${pkgname}.conf")
 source=("git+$url.git#branch=${_branch}"
         "${pkgname}-install.script"
         "${pkgname}-upgrade.script"
@@ -52,8 +52,8 @@ package() {
   # make DESTDIR="${pkgdir}" install
   python -m installer --destdir="${pkgdir}" dist/*.whl
 
-  # Automatically generated, do we actually need to install it?
-#  install -Dm644 conf/${pkgname}.conf "${pkgdir}/etc/${pkgname}.conf"
+  local site_packages=$(python -c "import site; print(site.getsitepackages()[0])")
+  mv "${pkgdir}${site_packages}/etc" "$pkgdir/"
 
   install -D "${srcdir}/${pkgname}-install.script" \
     "${pkgdir}/usr/share/libalpm/scripts/${pkgname}-install"
