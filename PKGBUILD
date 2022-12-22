@@ -1,7 +1,7 @@
 # Maintainer: Frede Hundewadt <fh@manjaro.org>
 # Contributor: Philip Müller <philm@manjaro.org>
 
-pkgname=pacman-mirrors
+pkgname=manjaro-mirrors
 pkgver=4.23.2+2+g2f58b3c
 pkgrel=1
 pkgdesc="Manjaro Linux mirror list for use by pacman"
@@ -12,14 +12,16 @@ depends=('python' 'python-npyscreen' 'python-requests' 'python-certifi')
 makedepends=('git' 'python-babel' 'python-setuptools')
 optdepends=('gtk3: for interactive mode (GUI)'
             'python-gobject: for interactive mode (GUI)')
-conflicts=('pacman-mirrorlist' 'reflector')
-backup=('etc/${pkgname}.conf')
+provides=('pacman-mirrors')
+conflicts=('pacman-mirrors')
+replaces=('pacman-mirrors')
+backup=('etc/pacman-mirrors.conf')
 _commit=2f58b3c22ae481bc1467d54ea598e16f27797fa6  # master
 source=("git+https://gitlab.manjaro.org/applications/pacman-mirrors.git#commit=${_commit}"
-        "${pkgname}-install.script"
-        "${pkgname}-upgrade.script"
-        "${pkgname}-install.hook"
-        "${pkgname}-upgrade.hook")
+        'pacman-mirrors-install.script'
+        'pacman-mirrors-upgrade.script'
+        'pacman-mirrors-install.hook'
+        'pacman-mirrors-upgrade.hook')
 sha256sums=('SKIP'
             '718a47605be1ca328255b19047dee6d331e0440f303b86d17485fe53937b7906'
             '3b1df8c662161903653b0ae41d910019f87a58f3ecd8e02ea9ac8859b9c43f17'
@@ -27,26 +29,25 @@ sha256sums=('SKIP'
             '6b6869d9dd85cd3a3cba49013dd2fc1c5f7a0934ba1284e21d4bbd24fa2540c6')
 
 pkgver() {
-  cd "${srcdir}/${pkgname}"
+  cd "${srcdir}/pacman-mirrors"
   git describe --tags | sed 's/^v//;s/-/+/g'
 }
 
 prepare() {
-  cd "${srcdir}/${pkgname}"
+  cd "${srcdir}/pacman-mirrors"
 }
 
 build() {
-  cd "${srcdir}/${pkgname}"
-  python setup.py build
+  cd "${srcdir}/pacman-mirrors"
   python setup.py compile_catalog --directory locale --domain pacman_mirrors
 }
 
 package() {
-  cd "${srcdir}/${pkgname}"
-   python setup.py install --root="$pkgdir" --optimize=1 --skip-build
+  cd "${srcdir}/pacman-mirrors"
+   python setup.py install --root="$pkgdir" --optimize=1
 
-  install -Dm644 "${srcdir}/${pkgname}-install.script" "${pkgdir}/usr/share/libalpm/scripts/${pkgname}-install"
-  install -Dm644 "${srcdir}/${pkgname}-upgrade.script" "${pkgdir}/usr/share/libalpm/scripts/${pkgname}-upgrade"
-  install -Dm644 "${srcdir}/${pkgname}-install.hook" "${pkgdir}/usr/share/libalpm/hooks/${pkgname}-install.hook"
-  install -Dm644 "${srcdir}/${pkgname}-upgrade.hook" "${pkgdir}/usr/share/libalpm/hooks/${pkgname}-upgrade.hook"
+  install -Dm644 "${srcdir}/pacman-mirrors-install.script" "${pkgdir}/usr/share/libalpm/scripts/pacman-mirrors-install"
+  install -Dm644 "${srcdir}/pacman-mirrors-upgrade.script" "${pkgdir}/usr/share/libalpm/scripts/pacman-mirrors-upgrade"
+  install -Dm644 "${srcdir}/pacman-mirrors-install.hook" "${pkgdir}/usr/share/libalpm/hooks/pacman-mirrors-install.hook"
+  install -Dm644 "${srcdir}/pacman-mirrors-upgrade.hook" "${pkgdir}/usr/share/libalpm/hooks/pacman-mirrors-upgrade.hook"
 }
