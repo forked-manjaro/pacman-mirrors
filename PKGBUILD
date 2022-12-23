@@ -4,7 +4,7 @@
 pkgname=pacman-mirrors
 _date=$(date +%Y%m%d)
 pkgver=4.23.2+2+g2f58b3c
-pkgrel=2
+pkgrel=3
 pkgdesc="Manjaro Linux mirror list for use by pacman"
 arch=('any')
 url="https://gitlab.manjaro.org/applications/pacman-mirrors"
@@ -49,8 +49,8 @@ package() {
   cd "${srcdir}/pacman-mirrors"
    python setup.py install --root="$pkgdir" --optimize=1
 
-  install -Dm644 "${srcdir}/pacman-mirrors-install.script" "${pkgdir}/usr/share/libalpm/scripts/pacman-mirrors-install"
-  install -Dm644 "${srcdir}/pacman-mirrors-upgrade.script" "${pkgdir}/usr/share/libalpm/scripts/pacman-mirrors-upgrade"
+  install -Dm755 "${srcdir}/pacman-mirrors-install.script" "${pkgdir}/usr/share/libalpm/scripts/pacman-mirrors-install"
+  install -Dm755 "${srcdir}/pacman-mirrors-upgrade.script" "${pkgdir}/usr/share/libalpm/scripts/pacman-mirrors-upgrade"
   install -Dm644 "${srcdir}/pacman-mirrors-install.hook" "${pkgdir}/usr/share/libalpm/hooks/pacman-mirrors-install.hook"
   install -Dm644 "${srcdir}/pacman-mirrors-upgrade.hook" "${pkgdir}/usr/share/libalpm/hooks/pacman-mirrors-upgrade.hook"
 }
