@@ -2,8 +2,9 @@
 # Contributor: Philip Müller <philm@manjaro.org>
 
 pkgname=manjaro-mirrors
+_date=$(date +%Y%m%d)
 pkgver=4.23.2+2+g2f58b3c
-pkgrel=1
+pkgrel=2
 pkgdesc="Manjaro Linux mirror list for use by pacman"
 arch=('any')
 url="https://gitlab.manjaro.org/applications/pacman-mirrors"
@@ -12,9 +13,9 @@ depends=('python' 'python-npyscreen' 'python-requests' 'python-certifi')
 makedepends=('git' 'python-babel' 'python-setuptools')
 optdepends=('gtk3: for interactive mode (GUI)'
             'python-gobject: for interactive mode (GUI)')
-provides=('pacman-mirrors')
-conflicts=('pacman-mirrors')
-replaces=('pacman-mirrors')
+provides=("pacman-mirrorlist=$_date-$pkgrel" "pacman-mirrors=$pkgver" "pacman-mirrors=$_date-$pkgrel")
+conflicts=('pacman-mirrors' 'pacman-mirrorlist' 'pacman-mirrors-dev' 'maint' 'reflector')
+replaces=('pacman-mirrors' 'pacman-mirrorlist')
 backup=('etc/pacman-mirrors.conf')
 _commit=2f58b3c22ae481bc1467d54ea598e16f27797fa6  # master
 source=("git+https://gitlab.manjaro.org/applications/pacman-mirrors.git#commit=${_commit}"
