@@ -1,7 +1,7 @@
 # Maintainer: Frede Hundewadt <fh@manjaro.org>
 # Contributor: Philip Müller <philm@manjaro.org>
 
-pkgname=manjaro-mirrors
+pkgname=pacman-mirrors
 _date=$(date +%Y%m%d)
 pkgver=4.23.2+2+g2f58b3c
 pkgrel=2
@@ -13,9 +13,11 @@ depends=('python' 'python-npyscreen' 'python-requests' 'python-certifi')
 makedepends=('git' 'python-babel' 'python-setuptools')
 optdepends=('gtk3: for interactive mode (GUI)'
             'python-gobject: for interactive mode (GUI)')
-provides=("pacman-mirrorlist=$_date-$pkgrel" "pacman-mirrors=$pkgver" "pacman-mirrors=$_date-$pkgrel")
-conflicts=('pacman-mirrors' 'pacman-mirrorlist' 'pacman-mirrors-dev' 'maint' 'reflector')
-replaces=('pacman-mirrors' 'pacman-mirrorlist')
+provides=("manjaro-mirrors=$pkgver-$pkgrel" "pacman-mirrorlist=$_date-$pkgrel"
+          "pacman-mirrors=$pkgver-$pkgrel" 'pacman-mirrors=30850401-1')
+conflicts=('pacman-mirrorlist' 'pacman-mirrors-dev' 'maint' 'reflector'
+           'manjaro-mirrors')
+replaces=('pacman-mirrorlist' 'manjaro-mirrors')
 backup=('etc/pacman-mirrors.conf')
 _commit=2f58b3c22ae481bc1467d54ea598e16f27797fa6  # master
 source=("git+https://gitlab.manjaro.org/applications/pacman-mirrors.git#commit=${_commit}"
