@@ -4,7 +4,7 @@
 pkgname=pacman-mirrors
 _date=$(date +%Y%m%d)
 pkgver=4.23.2+2+g2f58b3c
-pkgrel=3
+pkgrel=4
 pkgdesc="Manjaro Linux mirror list for use by pacman"
 arch=('any')
 url="https://gitlab.manjaro.org/applications/pacman-mirrors"
