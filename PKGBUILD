@@ -3,8 +3,8 @@
 
 pkgname=pacman-mirrors
 _date=$(date +%Y%m%d)
-pkgver=4.23.2+3+g91a0ce1
-pkgrel=1
+pkgver=4.23.2+2+g2f58b3c
+pkgrel=5
 pkgdesc="Manjaro Linux mirror list for use by pacman"
 arch=('any')
 url="https://gitlab.manjaro.org/applications/pacman-mirrors"
@@ -19,7 +19,7 @@ conflicts=('pacman-mirrorlist' 'pacman-mirrors-dev' 'maint' 'reflector'
            'manjaro-mirrors')
 replaces=('pacman-mirrorlist' 'manjaro-mirrors')
 backup=('etc/pacman-mirrors.conf')
-_commit=91a0ce182b58da3465fee8c691a5ae265ee6da3c  # master
+_commit=2f58b3c22ae481bc1467d54ea598e16f27797fa6  # master
 source=("git+https://gitlab.manjaro.org/applications/pacman-mirrors.git#commit=${_commit}"
         'pacman-mirrors-install.script'
         'pacman-mirrors-upgrade.script'
@@ -31,15 +31,14 @@ sha256sums=('SKIP'
             '88befb1a9b167112e05544ec4a765705bf474209e7ef67c44ffc418e10e89bfa'
             '6b6869d9dd85cd3a3cba49013dd2fc1c5f7a0934ba1284e21d4bbd24fa2540c6')
 
-# Generates 4.14.99.dev+150+g91a0ce1 ???
-
-#pkgver() {
-#  cd "${srcdir}/pacman-mirrors"
-#  git describe --tags | sed 's/^v//;s/-/+/g'
-#}
+pkgver() {
+  cd "${srcdir}/pacman-mirrors"
+  git describe --tags | sed 's/^v//;s/-/+/g'
+}
 
 prepare() {
   cd "${srcdir}/pacman-mirrors"
+  git cherry-pick -n 91a0ce182b58da3465fee8c691a5ae265ee6da3c
 }
 
 build() {
