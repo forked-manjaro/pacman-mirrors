@@ -3,8 +3,8 @@
 
 pkgname=pacman-mirrors
 _date=$(date +%Y%m%d)
-pkgver=4.23.2+2+g2f58b3c
-pkgrel=5
+pkgver=4.23.2+3+g4148c3d
+pkgrel=1
 pkgdesc="Manjaro Linux mirror list for use by pacman"
 arch=('any')
 url="https://gitlab.manjaro.org/applications/pacman-mirrors"
@@ -19,7 +19,7 @@ conflicts=('pacman-mirrorlist' 'pacman-mirrors-dev' 'maint' 'reflector'
            'manjaro-mirrors')
 replaces=('pacman-mirrorlist' 'manjaro-mirrors')
 backup=('etc/pacman-mirrors.conf')
-_commit=2f58b3c22ae481bc1467d54ea598e16f27797fa6  # master
+_commit=4148c3dcdd57adb010eee538222f806818663d41  # python311-v2
 source=("git+https://gitlab.manjaro.org/applications/pacman-mirrors.git#commit=${_commit}"
         'pacman-mirrors-install.script'
         'pacman-mirrors-upgrade.script'
@@ -34,11 +34,6 @@ sha256sums=('SKIP'
 pkgver() {
   cd "${srcdir}/pacman-mirrors"
   git describe --tags | sed 's/^v//;s/-/+/g'
-}
-
-prepare() {
-  cd "${srcdir}/pacman-mirrors"
-  git cherry-pick -n 91a0ce182b58da3465fee8c691a5ae265ee6da3c
 }
 
 build() {
