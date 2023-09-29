@@ -91,8 +91,12 @@ package() {
   done
   popd
 
-  install -Dm755 "$srcdir/$pkgname-install.script" "$pkgdir/usr/share/libalpm/scripts/$pkgname-install"
-  install -Dm755 "$srcdir/$pkgname-upgrade.script" "$pkgdir/usr/share/libalpm/scripts/$pkgname-upgrade"
-  install -Dm644 "$srcdir/$pkgname-install.hook" -t "$pkgdir/usr/share/libalpm/hooks/"
-  install -Dm644 "$srcdir/$pkgname-upgrade.hook" -t "$pkgdir/usr/share/libalpm/hooks/"
+  install -Dm755 "$srcdir/$pkgname-install.script" \
+    "$pkgdir/usr/share/libalpm/scripts/$pkgname-install"
+  install -Dm755 "$srcdir/$pkgname-upgrade.script" \
+    "$pkgdir/usr/share/libalpm/scripts/$pkgname-upgrade"
+  install -Dm644 "$srcdir/$pkgname-install.hook" -t \
+    "$pkgdir/usr/share/libalpm/hooks/"
+  install -Dm644 "$srcdir/$pkgname-upgrade.hook" -t \
+    "$pkgdir/usr/share/libalpm/hooks/"
 }
