@@ -1,27 +1,32 @@
 # Maintainer: Frede Hundewadt <fh@manjaro.org>
 # Contributor: Philip Müller <philm@manjaro.org>
 
+## TODO 
+# add mkdocs to repos & build docs
+
 pkgname=pacman-mirrors
-pkgver=4.23.2+3+g4148c3d
+pkgver=4.23.2+21+g87b7f4c
 pkgrel=1
 pkgdesc="Manjaro Linux mirror list for use by pacman"
 arch=('any')
 url="https://gitlab.manjaro.org/applications/pacman-mirrors"
-license=('GPL')
-depends=('python' 'python-npyscreen' 'python-requests' 'python-certifi')
-makedepends=('git' 'python-babel' 'python-setuptools')
+license=('GPL3')
+depends=('python' 'python-npyscreen' 'python-requests')
+makedepends=('git' 'pandoc' 'python-babel' 'python-build' 'python-poetry-core'
+             'python-installer' 'python-wheel')
+checkdepends=('flake8' 'python-pytest-cov' 'xdg-utils')
 optdepends=('gtk3: for interactive mode (GUI)'
             'python-gobject: for interactive mode (GUI)')
 provides=('pacman-mirrorlist')
 conflicts=('pacman-mirrorlist' 'reflector' 'manjaro-mirrors')
 replaces=('manjaro-mirrors')
-backup=('etc/pacman-mirrors.conf')
-_commit=4148c3dcdd57adb010eee538222f806818663d41  # python311-v2
+backup=("etc/$pkgname.conf")
+_commit=87b7f4c0ac3c4c1628b56b8f829522c48d82d6fd  # branch/poetry
 source=("git+https://gitlab.manjaro.org/applications/pacman-mirrors.git#commit=${_commit}"
-        'pacman-mirrors-install.script'
-        'pacman-mirrors-upgrade.script'
-        'pacman-mirrors-install.hook'
-        'pacman-mirrors-upgrade.hook')
+        "$pkgname-install.script"
+        "$pkgname-upgrade.script"
+        "$pkgname-install.hook"
+        "$pkgname-upgrade.hook")
 sha256sums=('SKIP'
             '718a47605be1ca328255b19047dee6d331e0440f303b86d17485fe53937b7906'
             '3b1df8c662161903653b0ae41d910019f87a58f3ecd8e02ea9ac8859b9c43f17'
@@ -29,21 +34,65 @@ sha256sums=('SKIP'
             '6b6869d9dd85cd3a3cba49013dd2fc1c5f7a0934ba1284e21d4bbd24fa2540c6')
 
 pkgver() {
-  cd "${srcdir}/pacman-mirrors"
+  cd "$pkgname"
   git describe --tags | sed 's/^v//;s/-/+/g'
 }
 
 build() {
-  cd "${srcdir}/pacman-mirrors"
-  python setup.py compile_catalog --directory locale --domain pacman_mirrors
+  cd "$pkgname"
+  python -m build --wheel --no-isolation
+
+  # docs
+#  mkdocs build
+
+  # man
+  pandoc data/docs/index.md -f markdown -t html -s -o "data/man/$pkgname.8.html"
+  pandoc -s -t man data/docs/index.md -o "data/man/$pkgname.8"
+
+  # locale
+  pybabel compile -D pacman_mirrors -d data/locale
+}
+
+check() {
+  cd "$pkgname"
+
+  # lint
+  echo "Can you placate Flake8?"
+  flake8 pacman_mirrors tests || :
+
+  # unit-test
+  echo "Running unit tests..."
+  pytest || :
+
+  # coverage
+  echo "Running coverage and generating report..."
+  coverage run pacman_mirrors tests || : # Can't find '__main__' module in 'pacman_mirrors'
+  coverage report -m || :
+  coverage html || :
+  xdg-open htmlcov/index.html || :
 }
 
 package() {
-  cd "${srcdir}/pacman-mirrors"
-   python setup.py install --root="$pkgdir" --optimize=1
+  cd "$pkgname"
+  python -m installer --destdir="$pkgdir" dist/*.whl
 
-  install -Dm755 "${srcdir}/pacman-mirrors-install.script" "${pkgdir}/usr/share/libalpm/scripts/pacman-mirrors-install"
-  install -Dm755 "${srcdir}/pacman-mirrors-upgrade.script" "${pkgdir}/usr/share/libalpm/scripts/pacman-mirrors-upgrade"
-  install -Dm644 "${srcdir}/pacman-mirrors-install.hook" "${pkgdir}/usr/share/libalpm/hooks/pacman-mirrors-install.hook"
-  install -Dm644 "${srcdir}/pacman-mirrors-upgrade.hook" "${pkgdir}/usr/share/libalpm/hooks/pacman-mirrors-upgrade.hook"
+  install -Dm644 "data/etc/$pkgname.conf" -t "$pkgdir/etc/"
+  install -Dm644 data/share/mirrors.json -t "$pkgdir/usr/share/$pkgname/"
+  install -Dm644 "data/man/$pkgname.8" -t "$pkgdir/usr/share/man/man8/"
+  install -Dm644 {AUTHORS,CHANGELOG,CONTRIBUTING,README}.md -t \
+    "$pkgdir/usr/share/docs/$pkgname/"
+
+  # install locale -- there's probably a better way to do this
+  pushd data/locale
+  rm pacman_mirrors.pot
+  for lang in *; do
+    install -Dm644 "${lang}/LC_MESSAGES/pacman_mirrors.mo" -t \
+      "$pkgdir/usr/share/locale/${lang}/LC_MESSAGES/"
+  done
+  popd
+
+  install -Dm755 "$srcdir/$pkgname-install.script" "$pkgdir/usr/share/libalpm/scripts/$pkgname-install"
+  install -Dm755 "$srcdir/$pkgname-upgrade.script" "$pkgdir/usr/share/libalpm/scripts/$pkgname-upgrade"
+  install -Dm644 "$srcdir/$pkgname-install.hook" -t "$pkgdir/usr/share/libalpm/hooks/"
+  install -Dm644 "$srcdir/$pkgname-upgrade.hook" -t "$pkgdir/usr/share/libalpm/hooks/"
 }
