@@ -1,27 +1,24 @@
 # Maintainer: Frede Hundewadt <fh@manjaro.org>
 # Contributor: Philip Müller <philm@manjaro.org>
 
-## TODO 
-# add mkdocs to repos & build docs
-
 pkgname=pacman-mirrors
-pkgver=4.23.2+21+g87b7f4c
+pkgver=4.23.3
 pkgrel=1
 pkgdesc="Manjaro Linux mirror list for use by pacman"
 arch=('any')
 url="https://gitlab.manjaro.org/applications/pacman-mirrors"
 license=('GPL3')
 depends=('python' 'python-npyscreen' 'python-requests')
-makedepends=('git' 'pandoc' 'python-babel' 'python-build' 'python-poetry-core'
+makedepends=('git' 'python-babel' 'python-build' 'python-poetry-core'
              'python-installer' 'python-wheel')
-checkdepends=('flake8' 'python-pytest-cov' 'xdg-utils')
+checkdepends=('xdg-utils')
 optdepends=('gtk3: for interactive mode (GUI)'
             'python-gobject: for interactive mode (GUI)')
 provides=('pacman-mirrorlist')
 conflicts=('pacman-mirrorlist' 'reflector' 'manjaro-mirrors')
 replaces=('manjaro-mirrors')
 backup=("etc/$pkgname.conf")
-_commit=87b7f4c0ac3c4c1628b56b8f829522c48d82d6fd  # branch/poetry
+_commit=063af2b305a69eddac859076f1682327bcfc8829  # branch/poetry
 source=("git+https://gitlab.manjaro.org/applications/pacman-mirrors.git#commit=${_commit}"
         "$pkgname-install.script"
         "$pkgname-upgrade.script"
@@ -33,43 +30,12 @@ sha256sums=('SKIP'
             '88befb1a9b167112e05544ec4a765705bf474209e7ef67c44ffc418e10e89bfa'
             '6b6869d9dd85cd3a3cba49013dd2fc1c5f7a0934ba1284e21d4bbd24fa2540c6')
 
-pkgver() {
-  cd "$pkgname"
-  git describe --tags | sed 's/^v//;s/-/+/g'
-}
+
 
 build() {
   cd "$pkgname"
   python -m build --wheel --no-isolation
-
-  # docs
-#  mkdocs build
-
-  # man
-  pandoc data/docs/index.md -f markdown -t html -s -o "data/man/$pkgname.8.html"
-  pandoc -s -t man data/docs/index.md -o "data/man/$pkgname.8"
-
-  # locale
   pybabel compile -D pacman_mirrors -d data/locale
-}
-
-check() {
-  cd "$pkgname"
-
-  # lint
-  echo "Can you placate Flake8?"
-  flake8 pacman_mirrors tests || :
-
-  # unit-test
-  echo "Running unit tests..."
-  pytest || :
-
-  # coverage
-  echo "Running coverage and generating report..."
-  coverage run pacman_mirrors tests || : # Can't find '__main__' module in 'pacman_mirrors'
-  coverage report -m || :
-  coverage html || :
-  xdg-open htmlcov/index.html || :
 }
 
 package() {
@@ -81,6 +47,9 @@ package() {
   install -Dm644 "data/man/$pkgname.8" -t "$pkgdir/usr/share/man/man8/"
   install -Dm644 {AUTHORS,CHANGELOG,CONTRIBUTING,README}.md -t \
     "$pkgdir/usr/share/docs/$pkgname/"
+
+  install -Dm777 data/bin/pacman-mirrors -t "$pkgdir/usr/bin/"
+
 
   # install locale -- there's probably a better way to do this
   pushd data/locale
