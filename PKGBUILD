@@ -10,7 +10,7 @@ url="https://gitlab.manjaro.org/applications/pacman-mirrors"
 license=('GPL3')
 depends=('python' 'python-npyscreen' 'python-requests')
 makedepends=('git' 'python-babel' 'python-build' 'python-poetry-core'
-             'python-installer' 'python-wheel')
+             'python-installer' 'python-toml' 'python-wheel')
 checkdepends=('xdg-utils')
 optdepends=('gtk3: for interactive mode (GUI)'
             'python-gobject: for interactive mode (GUI)')
@@ -30,7 +30,11 @@ sha256sums=('SKIP'
             '88befb1a9b167112e05544ec4a765705bf474209e7ef67c44ffc418e10e89bfa'
             '6b6869d9dd85cd3a3cba49013dd2fc1c5f7a0934ba1284e21d4bbd24fa2540c6')
 
-
+pkgver() {
+  cd "$pkgname"
+#  git describe --tags | sed 's/^v//;s/-/+/g'
+  python -c 'import toml; print(toml.load("pyproject.toml")["tool"]["poetry"]["version"])'
+}
 
 build() {
   cd "$pkgname"
@@ -44,12 +48,9 @@ package() {
 
   install -Dm644 "data/etc/$pkgname.conf" -t "$pkgdir/etc/"
   install -Dm644 data/share/mirrors.json -t "$pkgdir/usr/share/$pkgname/"
-  install -Dm644 "data/man/$pkgname.8" -t "$pkgdir/usr/share/man/man8/"
+  install -Dm644 "data/man/$pkgname.8.gz" -t "$pkgdir/usr/share/man/man8/"
   install -Dm644 {AUTHORS,CHANGELOG,CONTRIBUTING,README}.md -t \
     "$pkgdir/usr/share/docs/$pkgname/"
-
-  install -Dm777 data/bin/pacman-mirrors -t "$pkgdir/usr/bin/"
-
 
   # install locale -- there's probably a better way to do this
   pushd data/locale
