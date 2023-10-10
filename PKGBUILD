@@ -10,7 +10,7 @@ url="https://gitlab.manjaro.org/applications/pacman-mirrors"
 license=('GPL3')
 depends=('python' 'python-npyscreen' 'python-requests')
 makedepends=('git' 'python-babel' 'python-build' 'python-poetry-core'
-             'python-installer' 'python-toml' 'python-wheel')
+             'python-installer' 'python-wheel')
 checkdepends=('xdg-utils')
 optdepends=('gtk3: for interactive mode (GUI)'
             'python-gobject: for interactive mode (GUI)')
@@ -18,7 +18,7 @@ provides=('pacman-mirrorlist')
 conflicts=('pacman-mirrorlist' 'reflector' 'manjaro-mirrors')
 replaces=('manjaro-mirrors')
 backup=("etc/$pkgname.conf")
-_commit=063af2b305a69eddac859076f1682327bcfc8829  # branch/poetry
+_commit=028f1b944c5fcd85afdcfd30b9fd21fcc7d0edbc  # branch/master
 source=("git+https://gitlab.manjaro.org/applications/pacman-mirrors.git#commit=${_commit}"
         "$pkgname-install.script"
         "$pkgname-upgrade.script"
@@ -32,8 +32,7 @@ sha256sums=('SKIP'
 
 pkgver() {
   cd "$pkgname"
-#  git describe --tags | sed 's/^v//;s/-/+/g'
-  python -c 'import toml; print(toml.load("pyproject.toml")["tool"]["poetry"]["version"])'
+  git describe --tags | sed 's/^v//;s/-/+/g'
 }
 
 build() {
