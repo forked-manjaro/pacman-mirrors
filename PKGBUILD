@@ -2,7 +2,7 @@
 # Contributor: Philip Müller <philm@manjaro.org>
 
 pkgname=pacman-mirrors
-pkgver=4.23.3
+pkgver=5.0.1
 pkgrel=1
 pkgdesc="Manjaro Linux mirror list for use by pacman"
 arch=('any')
@@ -10,7 +10,7 @@ url="https://gitlab.manjaro.org/applications/pacman-mirrors"
 license=('GPL3')
 depends=('python' 'python-npyscreen' 'python-requests')
 makedepends=('git' 'python-babel' 'python-build' 'python-poetry-core'
-             'python-installer' 'python-wheel')
+             'python-installer' 'python-wheel' 'python-toml')
 checkdepends=('xdg-utils')
 optdepends=('gtk3: for interactive mode (GUI)'
             'python-gobject: for interactive mode (GUI)')
@@ -18,7 +18,7 @@ provides=('pacman-mirrorlist')
 conflicts=('pacman-mirrorlist' 'reflector' 'manjaro-mirrors')
 replaces=('manjaro-mirrors')
 backup=("etc/$pkgname.conf")
-_commit=028f1b944c5fcd85afdcfd30b9fd21fcc7d0edbc  # branch/master
+_commit=1db436d70bb53a04b744a087d253799a9230b7ab  # branch/mirror-manager
 source=("git+https://gitlab.manjaro.org/applications/pacman-mirrors.git#commit=${_commit}"
         "$pkgname-install.script"
         "$pkgname-upgrade.script"
@@ -32,7 +32,7 @@ sha256sums=('SKIP'
 
 pkgver() {
   cd "$pkgname"
-  git describe --tags | sed 's/^v//;s/-/+/g'
+  python -c 'import toml; print(toml.load("pyproject.toml")["tool"]["poetry"]["version"])'
 }
 
 build() {
@@ -46,7 +46,7 @@ package() {
   python -m installer --destdir="$pkgdir" dist/*.whl
 
   install -Dm644 "data/etc/$pkgname.conf" -t "$pkgdir/etc/"
-  install -Dm644 data/share/mirrors.json -t "$pkgdir/usr/share/$pkgname/"
+  install -Dm644 data/share/status.json -t "$pkgdir/usr/share/$pkgname/"
   install -Dm644 "data/man/$pkgname.8.gz" -t "$pkgdir/usr/share/man/man8/"
   install -Dm644 {AUTHORS,CHANGELOG,CONTRIBUTING,README}.md -t \
     "$pkgdir/usr/share/docs/$pkgname/"
