@@ -11,7 +11,6 @@ license=('GPL3')
 depends=('python' 'python-npyscreen' 'python-requests')
 makedepends=('git' 'python-babel' 'python-build' 'python-poetry-core'
              'python-installer' 'python-wheel')
-checkdepends=('xdg-utils')
 optdepends=('gtk3: for interactive mode (GUI)'
             'python-gobject: for interactive mode (GUI)')
 provides=('pacman-mirrorlist')
