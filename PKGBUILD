@@ -1,7 +1,7 @@
 # Maintainer: Frede Hundewadt <fh@manjaro.org>
 # Contributor: Philip Müller <philm@manjaro.org>
 
-pkgname=pacman-mirrors
+pkgname=pacman-mirrors-dev
 pkgver=5.0.1
 pkgrel=1
 pkgdesc="Manjaro Linux mirror list for use by pacman"
@@ -14,16 +14,16 @@ makedepends=('git' 'python-babel' 'python-build' 'python-poetry-core'
 checkdepends=('xdg-utils')
 optdepends=('gtk3: for interactive mode (GUI)'
             'python-gobject: for interactive mode (GUI)')
-provides=('pacman-mirrorlist')
-conflicts=('pacman-mirrorlist' 'reflector' 'manjaro-mirrors')
+provides=('pacman-mirrors' 'pacman-mirrorlist')
+conflicts=('pacman-mirrors' 'pacman-mirrorlist' 'reflector' 'manjaro-mirrors')
 replaces=('manjaro-mirrors')
-backup=("etc/$pkgname.conf")
+backup=('etc/pacman-mirrors.conf')
 _commit=1db436d70bb53a04b744a087d253799a9230b7ab  # branch/mirror-manager
 source=("git+https://gitlab.manjaro.org/applications/pacman-mirrors.git#commit=${_commit}"
-        "$pkgname-install.script"
-        "$pkgname-upgrade.script"
-        "$pkgname-install.hook"
-        "$pkgname-upgrade.hook")
+        'pacman-mirrors-install.script'
+        'pacman-mirrors-upgrade.script'
+        'pacman-mirrors-install.hook'
+        'pacman-mirrors-upgrade.hook')
 sha256sums=('SKIP'
             '718a47605be1ca328255b19047dee6d331e0440f303b86d17485fe53937b7906'
             '3b1df8c662161903653b0ae41d910019f87a58f3ecd8e02ea9ac8859b9c43f17'
@@ -31,25 +31,25 @@ sha256sums=('SKIP'
             '6b6869d9dd85cd3a3cba49013dd2fc1c5f7a0934ba1284e21d4bbd24fa2540c6')
 
 pkgver() {
-  cd "$pkgname"
+  cd pacman-mirrors
   python -c 'import toml; print(toml.load("pyproject.toml")["tool"]["poetry"]["version"])'
 }
 
 build() {
-  cd "$pkgname"
+  cd pacman-mirrors
   python -m build --wheel --no-isolation
   pybabel compile -D pacman_mirrors -d data/locale
 }
 
 package() {
-  cd "$pkgname"
+  cd pacman-mirrors
   python -m installer --destdir="$pkgdir" dist/*.whl
 
-  install -Dm644 "data/etc/$pkgname.conf" -t "$pkgdir/etc/"
-  install -Dm644 data/share/status.json -t "$pkgdir/usr/share/$pkgname/"
-  install -Dm644 "data/man/$pkgname.8.gz" -t "$pkgdir/usr/share/man/man8/"
+  install -Dm644 data/etc/pacman-mirrors.conf -t "$pkgdir/etc/"
+  install -Dm644 data/share/status.json -t "$pkgdir/usr/share/pacman-mirrors/"
+  install -Dm644 data/man/pacman-mirrors.8.gz -t "$pkgdir/usr/share/man/man8/"
   install -Dm644 {AUTHORS,CHANGELOG,CONTRIBUTING,README}.md -t \
-    "$pkgdir/usr/share/docs/$pkgname/"
+    "$pkgdir/usr/share/docs/pacman-mirrors/"
 
   # install locale -- there's probably a better way to do this
   pushd data/locale
@@ -60,12 +60,12 @@ package() {
   done
   popd
 
-  install -Dm755 "$srcdir/$pkgname-install.script" \
-    "$pkgdir/usr/share/libalpm/scripts/$pkgname-install"
-  install -Dm755 "$srcdir/$pkgname-upgrade.script" \
-    "$pkgdir/usr/share/libalpm/scripts/$pkgname-upgrade"
-  install -Dm644 "$srcdir/$pkgname-install.hook" -t \
+  install -Dm755 "$srcdir/pacman-mirrors-install.script" \
+    "$pkgdir/usr/share/libalpm/scripts/pacman-mirrors-install"
+  install -Dm755 "$srcdir/pacman-mirrors-upgrade.script" \
+    "$pkgdir/usr/share/libalpm/scripts/pacman-mirrors-upgrade"
+  install -Dm644 "$srcdir/pacman-mirrors-install.hook" -t \
     "$pkgdir/usr/share/libalpm/hooks/"
-  install -Dm644 "$srcdir/$pkgname-upgrade.hook" -t \
+  install -Dm644 "$srcdir/pacman-mirrors-upgrade.hook" -t \
     "$pkgdir/usr/share/libalpm/hooks/"
 }
