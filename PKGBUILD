@@ -3,7 +3,7 @@
 
 pkgname=pacman-mirrors-dev
 pkgver=5.0.1
-pkgrel=1
+pkgrel=2
 pkgdesc="Manjaro Linux mirror list for use by pacman"
 arch=('any')
 url="https://gitlab.manjaro.org/applications/pacman-mirrors"
@@ -15,8 +15,7 @@ checkdepends=('xdg-utils')
 optdepends=('gtk3: for interactive mode (GUI)'
             'python-gobject: for interactive mode (GUI)')
 provides=('pacman-mirrors' 'pacman-mirrorlist')
-conflicts=('pacman-mirrors' 'pacman-mirrorlist' 'reflector' 'manjaro-mirrors')
-replaces=('manjaro-mirrors')
+conflicts=('pacman-mirrors' 'pacman-mirrorlist' 'reflector')
 backup=('etc/pacman-mirrors.conf')
 _commit=1db436d70bb53a04b744a087d253799a9230b7ab  # branch/mirror-manager
 source=("git+https://gitlab.manjaro.org/applications/pacman-mirrors.git#commit=${_commit}"
@@ -45,8 +44,9 @@ package() {
   cd pacman-mirrors
   python -m installer --destdir="$pkgdir" dist/*.whl
 
+  mkdir -p "$pkgdir/etc/pacman.d"
   install -Dm644 data/etc/pacman-mirrors.conf -t "$pkgdir/etc/"
-  install -Dm644 data/share/status.json -t "$pkgdir/usr/share/pacman-mirrors/"
+  install -Dm644 data/share/status.json -t "$pkgdir/var/lib/$pkgname/"
   install -Dm644 data/man/pacman-mirrors.8.gz -t "$pkgdir/usr/share/man/man8/"
   install -Dm644 {AUTHORS,CHANGELOG,CONTRIBUTING,README}.md -t \
     "$pkgdir/usr/share/docs/pacman-mirrors/"
