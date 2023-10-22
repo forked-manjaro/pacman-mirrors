@@ -2,21 +2,21 @@
 # Contributor: Philip Müller <philm@manjaro.org>
 
 pkgname=pacman-mirrors
-pkgver=4.23.3+1+gc32c693
-pkgrel=1
+pkgver=4.23.3
+pkgrel=4
 pkgdesc="Manjaro Linux mirror list for use by pacman"
 arch=('any')
 url="https://gitlab.manjaro.org/applications/pacman-mirrors"
 license=('GPL3')
 depends=('python' 'python-npyscreen' 'python-requests')
 makedepends=('git' 'python-babel' 'python-build' 'python-poetry-core'
-             'python-installer' 'python-wheel')
+             'python-installer' 'python-wheel' 'curl')
 optdepends=('gtk3: for interactive mode (GUI)'
             'python-gobject: for interactive mode (GUI)')
 provides=('pacman-mirrorlist')
 conflicts=('pacman-mirrorlist' 'reflector')
 backup=("etc/$pkgname.conf")
-_commit=c32c6931157ed754413ab16e95ea4829aba56818  # branch/master
+_commit=028f1b944c5fcd85afdcfd30b9fd21fcc7d0edbc  # branch/master
 source=("git+https://gitlab.manjaro.org/applications/pacman-mirrors.git#commit=${_commit}"
         "$pkgname-install.script"
         "$pkgname-upgrade.script"
@@ -37,6 +37,7 @@ build() {
   cd "$pkgname"
   python -m build --wheel --no-isolation
   pybabel compile -D pacman_mirrors -d data/locale
+  curl -o data/share/mirrors.json https://repo.manjaro.org/mirrors.json
 }
 
 package() {
