@@ -2,8 +2,8 @@
 # Contributor: Philip Müller <philm@manjaro.org>
 
 pkgname=pacman-mirrors
-pkgver=4.23.3
-pkgrel=4
+pkgver=4.23.3+3+gcab9f1a
+pkgrel=1
 pkgdesc="Manjaro Linux mirror list for use by pacman"
 arch=('any')
 url="https://gitlab.manjaro.org/applications/pacman-mirrors"
@@ -16,7 +16,7 @@ optdepends=('gtk3: for interactive mode (GUI)'
 provides=('pacman-mirrorlist')
 conflicts=('pacman-mirrorlist' 'reflector')
 backup=("etc/$pkgname.conf")
-_commit=028f1b944c5fcd85afdcfd30b9fd21fcc7d0edbc  # branch/master
+_commit=cab9f1abdfaf4a2755a418f39af012ab40269369  # branch/master
 source=("git+https://gitlab.manjaro.org/applications/pacman-mirrors.git#commit=${_commit}"
         "$pkgname-install.script"
         "$pkgname-upgrade.script"
