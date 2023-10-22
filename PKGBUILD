@@ -3,7 +3,7 @@
 
 pkgname=pacman-mirrors
 pkgver=4.23.3
-pkgrel=2
+pkgrel=3
 pkgdesc="Manjaro Linux mirror list for use by pacman"
 arch=('any')
 url="https://gitlab.manjaro.org/applications/pacman-mirrors"
@@ -45,7 +45,7 @@ package() {
 
   install -d "$pkgdir/etc/pacman.d"
   install -Dm644 "data/etc/$pkgname.conf" -t "$pkgdir/etc/"
-  install -Dm644 data/share/mirrors.json -t "$pkgdir/var/lib/$pkgname/"
+  install -Dm644 data/share/mirrors.json -t "$pkgdir/usr/share/$pkgname/"
   install -Dm644 "data/man/$pkgname.8.gz" -t "$pkgdir/usr/share/man/man8/"
   install -Dm644 {AUTHORS,CHANGELOG,CONTRIBUTING,README}.md -t \
     "$pkgdir/usr/share/docs/$pkgname/"
