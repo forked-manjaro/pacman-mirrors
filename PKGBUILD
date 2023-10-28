@@ -13,7 +13,7 @@ makedepends=('git' 'python-babel' 'python-build' 'python-poetry-core'
              'python-installer' 'python-wheel' 'curl')
 optdepends=('gtk3: for interactive mode (GUI)'
             'python-gobject: for interactive mode (GUI)')
-provides=('pacman-mirrorlist')
+provides=("pacman-mirrorlist=$pkgver-$pkgrel")
 conflicts=('pacman-mirrorlist' 'reflector')
 backup=("etc/$pkgname.conf")
 _commit=018442f9e6384e7a3019567af987fdc40f7a7357  # branch/master
