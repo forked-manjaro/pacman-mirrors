@@ -1,0 +1,16 @@
+## arg 1:  the new package version
+## arg 2:  the old package version
+pre_upgrade() {
+  if [[ $2 == "4.24.1" ]]; then
+    pacman-mirrors -lc > /tmp/countries
+  fi
+}
+
+## arg 1:  the new package version
+## arg 2:  the old package version
+post_upgrade() {
+  if [[ $2 == "4.24.1" ]]; then
+    pacman-mirrors -c "$(cat /tmp/countries)" --no-mirrorlist
+  fi
+}
+

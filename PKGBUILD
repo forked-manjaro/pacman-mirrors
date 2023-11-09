@@ -3,7 +3,7 @@
 
 pkgname=pacman-mirrors-dev
 pkgver=5.0.1
-pkgrel=2
+pkgrel=3
 pkgdesc="Manjaro Linux mirror list for use by pacman"
 arch=('any')
 url="https://gitlab.manjaro.org/applications/pacman-mirrors"
@@ -17,6 +17,7 @@ optdepends=('gtk3: for interactive mode (GUI)'
 provides=('pacman-mirrors' 'pacman-mirrorlist')
 conflicts=('pacman-mirrors' 'pacman-mirrorlist' 'reflector')
 backup=('etc/pacman-mirrors.conf')
+install='pacman-mirrors.install'
 _commit=1db436d70bb53a04b744a087d253799a9230b7ab  # branch/mirror-manager
 source=("git+https://gitlab.manjaro.org/applications/pacman-mirrors.git#commit=${_commit}"
         'pacman-mirrors-install.script'
