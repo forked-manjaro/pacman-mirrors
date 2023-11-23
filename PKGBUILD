@@ -2,8 +2,8 @@
 # Contributor: Philip Müller <philm@manjaro.org>
 
 pkgname=pacman-mirrors-dev
-pkgver=5.0.1
-pkgrel=3
+pkgver=5.0.2
+pkgrel=1
 pkgdesc="Manjaro Linux mirror list for use by pacman"
 arch=('any')
 url="https://gitlab.manjaro.org/applications/pacman-mirrors"
@@ -18,7 +18,7 @@ provides=('pacman-mirrors' 'pacman-mirrorlist')
 conflicts=('pacman-mirrors' 'pacman-mirrorlist' 'reflector')
 backup=('etc/pacman-mirrors.conf')
 install='pacman-mirrors.install'
-_commit=1db436d70bb53a04b744a087d253799a9230b7ab  # branch/mirror-manager
+_commit=ea420bb22c9129927369a644873e42805b2f95bf  # branch/mirror-manager
 source=("git+https://gitlab.manjaro.org/applications/pacman-mirrors.git#commit=${_commit}"
         'pacman-mirrors-install.script'
         'pacman-mirrors-upgrade.script'
@@ -45,7 +45,7 @@ package() {
   cd pacman-mirrors
   python -m installer --destdir="$pkgdir" dist/*.whl
 
-  mkdir -p "$pkgdir/etc/pacman.d"
+  install -d "$pkgdir/etc/pacman.d"
   install -Dm644 data/etc/pacman-mirrors.conf -t "$pkgdir/etc/"
   install -Dm644 data/share/status.json -t "$pkgdir/var/lib/$pkgname/"
   install -Dm644 data/man/pacman-mirrors.8.gz -t "$pkgdir/usr/share/man/man8/"
