@@ -50,7 +50,7 @@ package() {
   install -Dm644 data/share/status.json -t "$pkgdir/var/lib/$pkgname/"
   install -Dm644 data/man/pacman-mirrors.8.gz -t "$pkgdir/usr/share/man/man8/"
   install -Dm644 {AUTHORS,CHANGELOG,CONTRIBUTING,README}.md -t \
-    "$pkgdir/usr/share/docs/pacman-mirrors/"
+    "$pkgdir/usr/share/doc/pacman-mirrors/"
 
   # install locale -- there's probably a better way to do this
   pushd data/locale
