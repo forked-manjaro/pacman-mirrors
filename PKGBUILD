@@ -49,7 +49,7 @@ package() {
   install -Dm644 data/share/mirrors.json -t "$pkgdir/usr/share/$pkgname/"
   install -Dm644 "data/man/$pkgname.8.gz" -t "$pkgdir/usr/share/man/man8/"
   install -Dm644 {AUTHORS,CHANGELOG,CONTRIBUTING,README}.md -t \
-    "$pkgdir/usr/share/docs/$pkgname/"
+    "$pkgdir/usr/share/doc/$pkgname/"
 
   # install locale -- there's probably a better way to do this
   pushd data/locale
