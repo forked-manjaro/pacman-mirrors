@@ -7,7 +7,7 @@ pkgrel=1
 pkgdesc="Manjaro Linux mirror list for use by pacman"
 arch=('any')
 url="https://gitlab.manjaro.org/applications/pacman-mirrors"
-license=('GPL3')
+license=('GPL-3.0-or-later')
 depends=('python' 'python-npyscreen' 'python-requests')
 makedepends=('git' 'python-babel' 'python-build' 'python-poetry-core'
              'python-installer' 'python-wheel' 'curl')
