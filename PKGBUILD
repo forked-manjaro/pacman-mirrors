@@ -3,7 +3,7 @@
 
 pkgname=pacman-mirrors
 pkgver=4.24.1
-pkgrel=1
+pkgrel=2
 pkgdesc="Manjaro Linux mirror list for use by pacman"
 arch=('any')
 url="https://gitlab.manjaro.org/applications/pacman-mirrors"
