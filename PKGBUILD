@@ -8,11 +8,24 @@ pkgdesc="Manjaro Linux mirror list for use by pacman"
 arch=('any')
 url="https://gitlab.manjaro.org/applications/pacman-mirrors"
 license=('GPL-3.0-or-later')
-depends=('python' 'python-npyscreen' 'python-requests')
-makedepends=('git' 'python-babel' 'python-build' 'python-poetry-core'
-             'python-installer' 'python-wheel' 'curl')
-optdepends=('gtk3: for interactive mode (GUI)'
-            'python-gobject: for interactive mode (GUI)')
+depends=(
+  'python'
+  'python-npyscreen'
+  'python-requests'
+)
+makedepends=(
+  'curl'
+  'git'
+  'python-babel'
+  'python-build'
+  'python-poetry-core'
+  'python-installer'
+  'python-wheel'
+)
+optdepends=(
+  'gtk3: for interactive mode (GUI)'
+  'python-gobject: for interactive mode (GUI)'
+)
 provides=("pacman-mirrorlist=$pkgver-$pkgrel")
 conflicts=('pacman-mirrorlist' 'reflector')
 backup=("etc/$pkgname.conf")
