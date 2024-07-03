@@ -29,9 +29,7 @@ optdepends=(
 provides=("pacman-mirrorlist=$pkgver-$pkgrel")
 conflicts=('pacman-mirrorlist' 'reflector')
 backup=("etc/$pkgname.conf")
-#_commit=69a76afcb649e7dd8455ed7dd7fb28e11b485445  # tags/4.26.1^0
-_tag=v4.27
-source=("git+https://gitlab.manjaro.org/applications/pacman-mirrors.git#tag=${_tag}"
+source=("git+https://gitlab.manjaro.org/applications/pacman-mirrors.git#tag=v$pkgver"
         "$pkgname-install.script"
         "$pkgname-upgrade.script"
         "$pkgname-install.hook"
@@ -41,11 +39,6 @@ sha256sums=('7559575196681a5fd40df0559341dde995bc9168bfd1aca81aa0ccae083471e3'
             '3b1df8c662161903653b0ae41d910019f87a58f3ecd8e02ea9ac8859b9c43f17'
             '88befb1a9b167112e05544ec4a765705bf474209e7ef67c44ffc418e10e89bfa'
             '6b6869d9dd85cd3a3cba49013dd2fc1c5f7a0934ba1284e21d4bbd24fa2540c6')
-
-pkgver() {
-  cd "$pkgname"
-  git describe --tags | sed 's/^v//;s/-/+/g'
-}
 
 build() {
   cd "$pkgname"
